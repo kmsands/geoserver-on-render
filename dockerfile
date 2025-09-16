@@ -1,18 +1,7 @@
-FROM openjdk:17-jdk-slim
+FROM docker.osgeo.org/geoserver:2.23.2
 
-# Set environment variables
-ENV GEOSERVER_VERSION=2.23.2
-ENV GEOSERVER_HOME=/opt/geoserver
-
-# Download and extract GeoServer
-RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://sourceforge.net/projects/geoserver/files/GeoServer/${GEOSERVER_VERSION}/geoserver-${GEOSERVER_VERSION}-bin.zip/download -O geoserver.zip && \
-    unzip geoserver.zip -d /opt && \
-    mv /opt/geoserver-${GEOSERVER_VERSION} $GEOSERVER_HOME && \
-    rm geoserver.zip
-
-# Expose default GeoServer port
+# Optional: expose port
 EXPOSE 8080
 
-# Start GeoServer
-CMD ["sh", "-c", "$GEOSERVER_HOME/bin/startup.sh && tail -f /dev/null"]
+# Optional: add PostGIS JDBC driver or config files here
+# COPY postgis-jdbc.jar /opt/geoserver/webapps/geoserver/WEB-INF/lib/
